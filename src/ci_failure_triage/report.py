@@ -15,6 +15,9 @@ def render_markdown_report(result: TriageResult) -> str:
     """Render a human-readable Markdown report."""
 
     evidence = "\n".join(f"- {item}" for item in result.evidence) or "- No evidence captured"
+    next_steps = "\n".join(
+        f"{index}. {item}" for index, item in enumerate(result.next_steps, start=1)
+    ) or "1. Inspect the full CI log manually."
     source = result.source or "<unknown>"
     return (
         "# CI Failure Triage Report\n\n"
@@ -23,7 +26,9 @@ def render_markdown_report(result: TriageResult) -> str:
         f"**Confidence:** {result.confidence:.2f}\n\n"
         f"**Summary:** {result.summary}\n\n"
         "## Evidence\n\n"
-        f"{evidence}\n"
+        f"{evidence}\n\n"
+        "## Suggested Next Steps\n\n"
+        f"{next_steps}\n"
     )
 
 

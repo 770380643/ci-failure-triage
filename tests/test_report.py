@@ -10,6 +10,7 @@ def _result():
         confidence=0.95,
         summary="Pytest assertion failure",
         evidence=["AssertionError: assert 500 == 200"],
+        next_steps=["Re-run the failed test locally with verbose output."],
         source="ci.log",
     )
 
@@ -21,6 +22,7 @@ def test_render_json_report_is_machine_readable():
     assert data["category"] == "test_failure"
     assert data["source"] == "ci.log"
     assert data["evidence"] == ["AssertionError: assert 500 == 200"]
+    assert data["next_steps"] == ["Re-run the failed test locally with verbose output."]
 
 
 def test_render_markdown_report_contains_human_summary():
@@ -29,3 +31,5 @@ def test_render_markdown_report_contains_human_summary():
     assert "# CI Failure Triage Report" in report
     assert "**Category:** test_failure" in report
     assert "- AssertionError: assert 500 == 200" in report
+    assert "## Suggested Next Steps" in report
+    assert "1. Re-run the failed test locally with verbose output." in report

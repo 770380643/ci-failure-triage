@@ -27,3 +27,15 @@ def test_classify_supported_categories(filename, snippet, category):
     assert result.confidence > 0
     assert result.summary
     assert result.evidence
+    assert result.next_steps
+
+
+def test_classify_test_failure_includes_actionable_next_steps():
+    parsed = parse_log(
+        "FAILED tests/test_api.py::test_returns_200 - AssertionError: assert 500 == 200",
+        source="pytest.log",
+    )
+
+    result = classify(parsed)
+
+    assert "Re-run the failed test locally with verbose output." in result.next_steps

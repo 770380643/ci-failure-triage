@@ -10,6 +10,49 @@ from .parser import parse_log
 
 Rule = tuple[FailureCategory, float, str, tuple[str, ...]]
 
+_NEXT_STEPS: dict[FailureCategory, list[str]] = {
+    FailureCategory.TEST_FAILURE: [
+        "Re-run the failed test locally with verbose output.",
+        "Inspect the assertion and recent changes around the failing test.",
+        "Check related service logs if the test depends on an external system.",
+    ],
+    FailureCategory.DEPENDENCY_ERROR: [
+        "Verify the package name and version constraints.",
+        "Check whether the package index or lock file changed recently.",
+        "Rebuild the environment from a clean dependency cache.",
+    ],
+    FailureCategory.SYNTAX_ERROR: [
+        "Open the referenced file and line from the error output.",
+        "Run the language parser or formatter locally before re-running CI.",
+        "Check recent edits to configuration files if the parser error is not from source code.",
+    ],
+    FailureCategory.TIMEOUT: [
+        "Re-run the slow step with timing or verbose logs enabled.",
+        "Check for external service waits, deadlocks, or unusually large test data.",
+        "Compare runtime with the previous successful CI run.",
+    ],
+    FailureCategory.NETWORK_ERROR: [
+        "Retry the job to rule out a transient network failure.",
+        "Check DNS, proxy, firewall, and package registry availability.",
+        "Prefer pinned mirrors or cached artifacts for frequently downloaded dependencies.",
+    ],
+    FailureCategory.PERMISSION_ERROR: [
+        "Check file ownership and permissions for the reported path.",
+        "Verify the CI user has access to caches, artifacts, and workspace directories.",
+        "Avoid running the same workspace with mixed privileged and unprivileged steps.",
+    ],
+    FailureCategory.DISK_SPACE_ERROR: [
+        "Inspect workspace, cache, and container layer disk usage.",
+        "Remove stale build artifacts or reduce cache size before retrying.",
+        "Consider moving large artifacts to external storage.",
+    ],
+    FailureCategory.UNKNOWN: [
+        "Inspect the first failing command and nearby log lines manually.",
+        "Add a sanitized sample log if this is a recurring failure pattern.",
+        "Create a new classifier rule once the failure signature is understood.",
+    ],
+}
+
 
 _RULES: tuple[Rule, ...] = (
     (FailureCategory.DISK_SPACE_ERROR, 0.97, "Disk space exhausted", (r"no space left on device", r"enospc", r"disk quota exceeded")),
@@ -33,6 +76,7 @@ def classify(parsed_log: ParsedLog) -> TriageResult:
                 confidence=confidence,
                 summary=summary,
                 evidence=evidence,
+                next_steps=_NEXT_STEPS[category],
                 source=parsed_log.source,
             )
 
@@ -42,6 +86,7 @@ def classify(parsed_log: ParsedLog) -> TriageResult:
         confidence=0.1,
         summary="Unknown CI failure",
         evidence=[fallback],
+        next_steps=_NEXT_STEPS[FailureCategory.UNKNOWN],
         source=parsed_log.source,
     )
 

@@ -37,6 +37,7 @@ class TriageResult:
     confidence: float
     summary: str
     evidence: list[str]
+    next_steps: list[str]
     source: str | None = None
 
     def as_dict(self) -> dict[str, object]:

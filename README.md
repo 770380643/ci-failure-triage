@@ -80,6 +80,12 @@ If `--output` is omitted, the report is printed to stdout.
 ## Evidence
 
 - FAILED tests/test_api.py::test_returns_200 - AssertionError: assert 500 == 200
+
+## Suggested Next Steps
+
+1. Re-run the failed test locally with verbose output.
+2. Inspect the assertion and recent changes around the failing test.
+3. Check related service logs if the test depends on an external system.
 ```
 
 ## Sample JSON output
@@ -90,6 +96,11 @@ If `--output` is omitted, the report is printed to stdout.
   "confidence": 0.9,
   "evidence": [
     "ERROR: No matching distribution found for internal-widget==99.0"
+  ],
+  "next_steps": [
+    "Verify the package name and version constraints.",
+    "Check whether the package index or lock file changed recently.",
+    "Rebuild the environment from a clean dependency cache."
   ],
   "source": "samples/dependency_error.log",
   "summary": "Dependency installation or resolution failure"
