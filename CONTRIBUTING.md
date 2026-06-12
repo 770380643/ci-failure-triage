@@ -5,7 +5,7 @@ Thanks for considering a contribution to `ci-failure-triage`.
 ## Local setup
 
 ```bash
-python -m pip install -e .
+python -m pip install -e ".[dev]"
 python -m pytest
 ```
 

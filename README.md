@@ -43,8 +43,7 @@ python -m pip install -e ".[dev]"
 python -m pytest
 ```
 
-Repository and issue tracker URLs will be added after the public GitHub
-repository is created.
+Repository: https://github.com/770380643/ci-failure-triage
 
 ## Usage
 

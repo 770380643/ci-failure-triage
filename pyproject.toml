@@ -24,6 +24,10 @@ classifiers = [
 [project.optional-dependencies]
 dev = ["pytest>=8"]
 
+[project.urls]
+Homepage = "https://github.com/770380643/ci-failure-triage"
+Issues = "https://github.com/770380643/ci-failure-triage/issues"
+
 [project.scripts]
 ci-triage = "ci_failure_triage.cli:main"
 
