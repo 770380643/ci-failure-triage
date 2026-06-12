@@ -1,5 +1,8 @@
 # ci-failure-triage
 
+[![tests](https://github.com/770380643/ci-failure-triage/actions/workflows/tests.yml/badge.svg)](https://github.com/770380643/ci-failure-triage/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 `ci-failure-triage` is a small, transparent Python tool for turning noisy CI logs
 into actionable failure reports. It is designed for maintainers, QA engineers,
 and automation bots that need a dependable first-pass diagnosis before a human
