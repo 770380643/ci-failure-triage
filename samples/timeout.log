@@ -1,0 +1,3 @@
+Running integration suite
+ERROR: Job failed: execution took longer than 30 minutes and timed out
+Cleaning up project directory and file based variables

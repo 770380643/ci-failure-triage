@@ -1,0 +1,3 @@
+Collecting project dependencies
+ERROR: Could not find a version that satisfies the requirement internal-widget==99.0
+ERROR: No matching distribution found for internal-widget==99.0

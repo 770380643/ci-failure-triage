@@ -1,0 +1,4 @@
+File "src/app.py", line 14
+    if enabled print("ready")
+               ^^^^^
+SyntaxError: invalid syntax

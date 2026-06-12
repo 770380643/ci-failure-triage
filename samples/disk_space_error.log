@@ -1,0 +1,4 @@
+Building docker image
+Writing layer sha256:abc123
+OSError: [Errno 28] No space left on device
+ERROR: failed to export image: disk quota exceeded

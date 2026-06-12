@@ -1,0 +1,5 @@
+INFO checkout complete
+INFO running pytest
+FAILED tests/test_api.py::test_returns_200 - AssertionError: assert 500 == 200
+=========================== short test summary info ===========================
+FAILED tests/test_api.py::test_returns_200
