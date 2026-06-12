@@ -1,7 +1,12 @@
 import json
 
 from ci_failure_triage.models import FailureCategory, TriageResult
-from ci_failure_triage.report import render_json_report, render_markdown_report
+from ci_failure_triage.report import (
+    render_json_batch_report,
+    render_json_report,
+    render_markdown_batch_report,
+    render_markdown_report,
+)
 
 
 def _result():
@@ -33,3 +38,19 @@ def test_render_markdown_report_contains_human_summary():
     assert "- AssertionError: assert 500 == 200" in report
     assert "## Suggested Next Steps" in report
     assert "1. Re-run the failed test locally with verbose output." in report
+
+
+def test_render_json_batch_report_summarizes_categories():
+    report = render_json_batch_report([_result()])
+
+    data = json.loads(report)
+    assert data["summary"] == {"total": 1, "by_category": {"test_failure": 1}}
+    assert data["results"][0]["category"] == "test_failure"
+
+
+def test_render_markdown_batch_report_contains_sections():
+    report = render_markdown_batch_report([_result()])
+
+    assert "# CI Failure Triage Batch Report" in report
+    assert "- test_failure: 1" in report
+    assert "## ci.log" in report

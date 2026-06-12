@@ -62,6 +62,12 @@ Analyze a log and write JSON:
 ci-triage analyze samples/dependency_error.log --format json --output report.json
 ```
 
+Analyze all `.log` files in a directory:
+
+```bash
+ci-triage analyze-dir samples/ --format markdown --output batch-report.md
+```
+
 If `--output` is omitted, the report is printed to stdout.
 
 ## Sample Markdown output
